@@ -65,6 +65,16 @@ namespace CSHra
             {
                 mapa.Presun(x, y, nove_x, nove_y); // presune obsah mapy a pokud je tam pohybliny prvek, zmeni mu x a y
             }
+            else if (mapa.JeBalvan(nove_x, nove_y) && mapa.JeVolno(nove_x + 1, nove_y) && mapa.stisknutaSipka == StisknutaSipka.doprava)
+            {
+                mapa.Presun(nove_x, nove_y, nove_x + 1, nove_y);
+                mapa.Presun(x, y, nove_x, nove_y);
+            }
+            else if (mapa.JeBalvan(nove_x, nove_y) && mapa.JeVolno(nove_x - 1, nove_y) && mapa.stisknutaSipka == StisknutaSipka.doleva)
+            {
+                mapa.Presun(nove_x, nove_y, nove_x - 1, nove_y);
+                mapa.Presun(x, y, nove_x, nove_y);
+            }
         }
     }
 
