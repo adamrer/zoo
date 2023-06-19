@@ -113,6 +113,12 @@ namespace CSHra
                 mapa.Presun(x,y,x,y+1);
                 
             }
+            else if (mapa.JeHrdina(x, y + 1))
+            {
+                mapa.Presun(x, y, x, y + 1);
+                
+                mapa.stav = Stav.prohra;
+            }
             // ###########################################################
             // ...tady neco schazi...
             // ###########################################################
@@ -220,6 +226,11 @@ namespace CSHra
         public bool JeVolnoNeboHlina(int x, int y)
         {
             return (plan[x, y] == ' ') || (plan[x, y] == 'h');
+        }
+
+        public bool JeHrdina(int x, int y)
+        {
+            return plan[x, y] == 'h';
         }
 
         public bool JeOtevrenyVychod(int x, int y)
