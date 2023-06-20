@@ -45,7 +45,15 @@ namespace zoo
             return lVstup_soubor.Text;
         }
 
-        
+        public string dobaOd()
+        {
+            return tbOd.Text;
+        }
+        public string dobaDo()
+        {
+            return tbDo.Text;
+        }
+
 
 
 
@@ -53,10 +61,15 @@ namespace zoo
         {
             //musí být vyplnìny všechny kolonky
             //vytvoøí model, spustí Vypocti() s poèty návštìvníkù
-            //for loop pøes poèty návštìvníkù s krokem
+            // TODO: for loop pøes poèty návštìvníkù s krokem
+
+            Random random = new Random(12345);
+            Model model = new Model(_Form1, random);
+            model.Vypocti((int)numPocet_min.Value);
+
 
         }
-        
+
 
 
     }

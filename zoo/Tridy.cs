@@ -1,6 +1,8 @@
-﻿using System;
+﻿using Microsoft.VisualBasic.Logging;
+using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection.Metadata.Ecma335;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -94,6 +96,17 @@ namespace zoo
                 BublejDolu(nejmensi);
             }
         }
+        public int NajdiUdalost(Proces kdo, TypUdalosti co)
+        {
+            for (int i = 0; i < prvky.Count; i++)
+            {
+                if (prvky[i].objekt.kdo == kdo && prvky[i].objekt.co == co)
+                {
+                    return i;
+                }
+            }
+            return -1;
+        }
         public void ZmensiHodnotu(int index, int novaHodnota)
         {
             if (novaHodnota > prvky[index].klic)
@@ -148,7 +161,15 @@ namespace zoo
         Halda halda = new Halda();
         public Udalost Prvni()
         {
-            return halda.OdeberMin().objekt;
+            Halda.Prvek prvek = halda.OdeberMin();
+            if (prvek == null)
+            {
+                return null;
+            }
+            else
+            {
+                return prvek.objekt;
+            }
         }
         public void Pridej(Udalost ud)
         {
@@ -156,33 +177,40 @@ namespace zoo
         }
         public void Odeber(Proces kdo, TypUdalosti co)
         {
-
+            halda.Odeber(halda.NajdiUdalost(kdo, co));// TODO: zkusit jestli funguje
         }
+
+    }
     public abstract class Proces
     {
+        protected static char oddelovac = ',';
         public string ID;
         public int patro;
         protected Model model;
-        // TODO: dodělat proces
+
         public abstract void Zpracuj(Udalost ud);
         protected void log(string zprava)
         {
-            model.form.ZapisDo($"{model.cas}, {ID} | {zprava}\n", "log");
+            string l = String.Format("{0,5} {1,12} | ", Prevadec.DigitalniPlusMinuty(model.dOteviraciDoba, model.cas), ID);
+            model.form.ZapisDo(l+zprava+'\n', "log");
         }
     }
     public class Lanovka : Proces
     {
         int dobaPrepravy;
         int dobaMeziNalozenim;
-        List<Navstevnik> fronta;
+        List<Navstevnik> frontaNahoru;
+        List<Navstevnik> frontaDolu;
         public Lanovka(Model model, string popis)
         {
-            string[] popisy = popis.Split(' ');
+            string[] popisy = popis.Split(Proces.oddelovac);
             this.ID = popisy[0];
             this.patro = int.Parse(popisy[1]);
             this.dobaPrepravy = int.Parse(popisy[2]);
             this.dobaMeziNalozenim = int.Parse(popisy[3]);
-            this.fronta = new List<Navstevnik>();
+            this.frontaNahoru = new List<Navstevnik>();
+            this.frontaDolu = new List<Navstevnik>();
+            log($"Vytvořena lanovka {ID}");
         }
         public override void Zpracuj(Udalost ud)
         {
@@ -200,12 +228,16 @@ namespace zoo
         protected bool obsluhuje;
         protected int rychlost;
         protected List<Navstevnik> fronta;
+        
         public Stanoviste(Model model, string popis)
         {
+            this.model = model;
             obsluhuje = false;
             fronta = new List<Navstevnik>();
-            model.VsechnaStanoviste.Add(this.ID, this);
-            log($"Vytvořeno {this.GetType().Name} {ID}");
+            string[] popisy = popis.Split(Proces.oddelovac);
+            ID = popisy[0];
+            patro = int.Parse(popisy[1]);
+            rychlost = int.Parse(popisy[2]);
         }
         public int DelkaFronty()
         {
@@ -216,9 +248,11 @@ namespace zoo
     }
     public class Obcerstveni : Stanoviste
     {
+
         public Obcerstveni(Model model, string popis) : base(model, popis)
         {
 
+            model.VsechnaStanoviste.Add(this.ID, this);
         }
         public override void Zpracuj(Udalost ud)
         {
@@ -230,6 +264,7 @@ namespace zoo
         public Suvenyry(Model model, string popis) : base(model, popis)
         {
 
+            model.VsechnaStanoviste.Add(this.ID, this);
         }
         public override void Zpracuj(Udalost ud)
         {
@@ -238,8 +273,18 @@ namespace zoo
     }
     public class Expozice : Stanoviste
     {
+        int kapacita;
+        int pocetVolnychMist;
         public Expozice(Model model, string popis) : base(model, popis)
         {
+            string[] popisy = popis.Split(Proces.oddelovac);
+            kapacita = int.Parse(popisy[3]);
+
+            pocetVolnychMist = kapacita;
+
+
+            model.VsechnaStanoviste.Add(this.ID, this);
+            log($"Vytvořeno {this.GetType().Name} {ID}");
         }
         public override void Zpracuj(Udalost ud)
         {
@@ -251,80 +296,132 @@ namespace zoo
         protected int trpelivost;
         protected int hlad;
         protected int prichod;
-        protected List<Stanoviste> stanoviste;
+
+        protected List<string> stanoviste;// jen jména, ušetří paměť, ale budu muset hledat podle jména (mám dictionary)
         //možná list speciálních událostí
+
+        public Navstevnik(Model model, int[] popis, List<string> stanoviste)
+        {
+            this.model = model;
+            ID = popis[0].ToString();
+            patro = popis[1];
+            trpelivost = popis[2];
+            hlad = popis[3];
+            prichod = popis[4];
+            this.stanoviste = stanoviste;
+
+
+            log($"Vytvořen {this.GetType().Name} {ID}");
+            model.Naplanuj(prichod, this, TypUdalosti.Start);
+
+        }
         protected abstract Stanoviste VyberDalsiStanoviste();
     }
     public class Navstevnik_0 : Navstevnik //TODO: návštěvníci nejsou hotoví, zatím každý dělá to samé
     {
+        public Navstevnik_0(Model model, int[] popis, List<string> stanoviste) : base(model, popis, stanoviste) { }
         public override void Zpracuj(Udalost ud)
         {
-
+            switch (ud.co)
+            {
+                case TypUdalosti.Start:
+                    log($"Startuje");
+                    break;
+                case TypUdalosti.Trpelivost:
+                    break;
+                case TypUdalosti.Hlad:
+                    break;
+                case TypUdalosti.Obslouzen:
+                    break;
+                case TypUdalosti.Specialni:
+                    break;
+                default:
+                    break;
+            }
         }
         protected override Stanoviste VyberDalsiStanoviste()
         {
-            return stanoviste[0];
+            if (stanoviste.Count <= 0)//TODO: řešit odchod, když má prázdný list
+            {
+                //jdi ven
+                return null;
+            }
+            else
+            {
+                return model.VsechnaStanoviste[stanoviste[0]];
+
+            }
         }
     }
     public class Navstevnik_1 : Navstevnik
     {
+        public Navstevnik_1(Model model, int[] popis, List<string> stanoviste) : base(model, popis, stanoviste) { }
         public override void Zpracuj(Udalost ud)
         {
 
         }
         protected override Stanoviste VyberDalsiStanoviste()
         {
-            return stanoviste[0];
+            return model.VsechnaStanoviste[stanoviste[0]];
         }
     }
     public class Navstevnik_2 : Navstevnik
     {
+        public Navstevnik_2(Model model, int[] popis, List<string> stanoviste) : base(model, popis, stanoviste) { }
         public override void Zpracuj(Udalost ud)
         {
 
         }
         protected override Stanoviste VyberDalsiStanoviste()
         {
-            return stanoviste[0];
+            return model.VsechnaStanoviste[stanoviste[0]];
         }
     }
     public class Navstevnik_3 : Navstevnik
     {
+        public Navstevnik_3(Model model, int[] popis, List<string> stanoviste) : base(model, popis, stanoviste) { }
         public override void Zpracuj(Udalost ud)
         {
 
         }
         protected override Stanoviste VyberDalsiStanoviste()
         {
-            return stanoviste[0];
+            return model.VsechnaStanoviste[stanoviste[0]];
         }
     }
     public class Model
     {
         public int cas;
-        int zaviraciDoba;
+        public string dOteviraciDoba;
+        int mZaviraciDoba;
         public Dictionary<string,Stanoviste> VsechnaStanoviste; // TODO: dictionary podle jména?
         public Form1 form;
 
         
         Kalendar kalendar;
         Lanovka lanovka;
+        Random rnd;
 
         public Model(Form1 form, Random rnd)
         {
             this.form = form;
+            this.rnd = rnd;
+            VsechnaStanoviste = new Dictionary<string, Stanoviste>();
+            dOteviraciDoba = form.dobaOd();
+            mZaviraciDoba = Prevadec.Digitalni2Minuty(form.dobaDo()) - Prevadec.Digitalni2Minuty(form.dobaOd());
             VytvorStanoviste();
         }
         public void Vypocti(int pocetNavst)
         {
-            
+            cas = 0;
             kalendar = new Kalendar();
             VytvorNavstevniky(pocetNavst);
             Udalost ud;
-            while((ud = kalendar.Prvni()) != null && ud.kdy <= zaviraciDoba)
+            while((ud = kalendar.Prvni()) != null && ud.kdy <= mZaviraciDoba)
             {
                 cas = ud.kdy;
                 ud.kdo.Zpracuj(ud);
+                
             }
         }
         void VytvorStanoviste()
@@ -339,16 +436,16 @@ namespace zoo
                     switch (radek[0])
                     {
                         case 'L':
-                            lanovka = new Lanovka(this, radek[1..]);
+                            lanovka = new Lanovka(this, radek[2..]);
                             break;
                         case 'O':
-                            new Obcerstveni(this, radek[1..]);
+                            new Obcerstveni(this, radek[2..]);
                             break;
                         case 'E':
-                            new Expozice(this, radek[1..]);
+                            new Expozice(this, radek[2..]);
                             break;
                         case 'S':
-                            new Suvenyry(this, radek[1..]);
+                            new Suvenyry(this, radek[2..]);
                             break;
                         default:
                             break;
@@ -356,9 +453,77 @@ namespace zoo
                 }
             }
         }
+        
         void VytvorNavstevniky(int pocetNavst)
         {
+            for (int i = 0; i < pocetNavst; i++)
+            {// TODO: podle vybraného typu návstěvníků vytvářet návštěvníky
 
+                int pocetStanovist = rnd.Next(1, 20);
+                List<string> stanoviste = new List<string>();
+
+                for (int j = 0; j < pocetStanovist; j++)
+                {//vybírání stanovišť
+                    int stanIndex = rnd.Next(0, VsechnaStanoviste.Count);
+                    stanoviste.Add(VsechnaStanoviste.ElementAt(stanIndex).Value.ID);//jen názvy
+                }
+                new Navstevnik_0(this, new int[5] { i, rnd.Next(0,2), rnd.Next(5, 240), rnd.Next(20, 360), rnd.Next(0, mZaviraciDoba) }, stanoviste);
+                //                                  ID,patro,         trpelivost,       hlad,              prichod,                     stanoviste
+            }
+        }
+
+        public void Naplanuj(int kdy, Proces kdo, TypUdalosti co) 
+        {
+            kalendar.Pridej(new Udalost(kdy, kdo, co));
+        }
+        public void Odplanuj(Proces kdo, TypUdalosti co)
+        {
+            kalendar.Odeber(kdo, co);
+        }
+    }
+
+    public class Prevadec
+    {
+        static (int, int) HodinyMinuty(string digit)
+        {
+            string[] cas = digit.Split(':');
+
+            return (int.Parse(cas[0]), int.Parse(cas[1]));
+
+        }
+        public static int Digitalni2Minuty(string digit)
+        {
+            string[] cas = digit.Split(':');
+            (int, int) hm = HodinyMinuty(digit);
+            return hm.Item1 * 60 + hm.Item2;
+        }
+        public static bool JeDigitalni(string digit)
+        {
+            try
+            {
+                Digitalni2Minuty(digit);
+
+            }
+            catch (Exception)
+            {
+                return false;
+                throw;
+            }
+            return true;
+        }
+
+        public static string DigitalniPlusMinuty(string digit, int minuty)
+        {
+            (int hodiny, int minuty) hm = HodinyMinuty(digit);
+            hm.hodiny += minuty / 60;
+            hm.minuty += minuty % 60;
+            string h = hm.hodiny.ToString();
+            string m = hm.minuty.ToString();
+            
+            if (hm.hodiny < 10) h = $"0{hm.hodiny}";
+            if (hm.minuty < 10) m = $"0{hm.minuty}";
+
+            return $"{h}:{m}";
         }
     }
 

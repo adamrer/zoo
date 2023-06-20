@@ -57,7 +57,7 @@
             // bStart
             // 
             bStart.Font = new Font("Segoe UI", 11F, FontStyle.Regular, GraphicsUnit.Point);
-            bStart.Location = new Point(26, 347);
+            bStart.Location = new Point(662, 13);
             bStart.Name = "bStart";
             bStart.Size = new Size(115, 69);
             bStart.TabIndex = 0;
@@ -99,7 +99,7 @@
             // 
             lPocet_navstevniku.AutoSize = true;
             lPocet_navstevniku.Font = new Font("Segoe UI", 11.25F, FontStyle.Bold, GraphicsUnit.Point);
-            lPocet_navstevniku.Location = new Point(23, 167);
+            lPocet_navstevniku.Location = new Point(23, 113);
             lPocet_navstevniku.Name = "lPocet_navstevniku";
             lPocet_navstevniku.Size = new Size(140, 20);
             lPocet_navstevniku.TabIndex = 4;
@@ -109,7 +109,7 @@
             // 
             lPocet_min.AutoSize = true;
             lPocet_min.Font = new Font("Segoe UI", 11F, FontStyle.Regular, GraphicsUnit.Point);
-            lPocet_min.Location = new Point(158, 167);
+            lPocet_min.Location = new Point(158, 113);
             lPocet_min.Name = "lPocet_min";
             lPocet_min.Size = new Size(34, 20);
             lPocet_min.TabIndex = 5;
@@ -119,7 +119,7 @@
             // 
             lPocet_max.AutoSize = true;
             lPocet_max.Font = new Font("Segoe UI", 11F, FontStyle.Regular, GraphicsUnit.Point);
-            lPocet_max.Location = new Point(272, 167);
+            lPocet_max.Location = new Point(266, 112);
             lPocet_max.Name = "lPocet_max";
             lPocet_max.Size = new Size(37, 20);
             lPocet_max.TabIndex = 6;
@@ -129,7 +129,7 @@
             // 
             lPocet_krok.AutoSize = true;
             lPocet_krok.Font = new Font("Segoe UI", 11F, FontStyle.Regular, GraphicsUnit.Point);
-            lPocet_krok.Location = new Point(394, 167);
+            lPocet_krok.Location = new Point(377, 112);
             lPocet_krok.Name = "lPocet_krok";
             lPocet_krok.Size = new Size(39, 20);
             lPocet_krok.TabIndex = 7;
@@ -137,25 +137,27 @@
             // 
             // tbLog
             // 
-            tbLog.Location = new Point(213, 314);
+            tbLog.Font = new Font("Consolas", 9F, FontStyle.Regular, GraphicsUnit.Point);
+            tbLog.Location = new Point(26, 200);
             tbLog.Name = "tbLog";
             tbLog.ReadOnly = true;
-            tbLog.Size = new Size(346, 102);
+            tbLog.Size = new Size(479, 216);
             tbLog.TabIndex = 8;
             tbLog.Text = "";
             // 
             // tbVystup
             // 
-            tbVystup.Location = new Point(577, 165);
+            tbVystup.Font = new Font("Consolas", 9F, FontStyle.Regular, GraphicsUnit.Point);
+            tbVystup.Location = new Point(521, 165);
             tbVystup.Name = "tbVystup";
             tbVystup.ReadOnly = true;
-            tbVystup.Size = new Size(184, 256);
+            tbVystup.Size = new Size(256, 256);
             tbVystup.TabIndex = 9;
             tbVystup.Text = "";
             // 
             // bVstup_soubor
             // 
-            bVstup_soubor.Location = new Point(23, 223);
+            bVstup_soubor.Location = new Point(23, 142);
             bVstup_soubor.Name = "bVstup_soubor";
             bVstup_soubor.Size = new Size(217, 25);
             bVstup_soubor.TabIndex = 10;
@@ -167,7 +169,7 @@
             // 
             lVstup_soubor.AutoSize = true;
             lVstup_soubor.Font = new Font("Segoe UI", 11F, FontStyle.Regular, GraphicsUnit.Point);
-            lVstup_soubor.Location = new Point(26, 251);
+            lVstup_soubor.Location = new Point(26, 170);
             lVstup_soubor.Name = "lVstup_soubor";
             lVstup_soubor.Size = new Size(100, 20);
             lVstup_soubor.TabIndex = 11;
@@ -175,7 +177,7 @@
             // 
             // numPocet_min
             // 
-            numPocet_min.Location = new Point(198, 165);
+            numPocet_min.Location = new Point(198, 110);
             numPocet_min.Maximum = new decimal(new int[] { 9999999, 0, 0, 0 });
             numPocet_min.Minimum = new decimal(new int[] { 1, 0, 0, 0 });
             numPocet_min.Name = "numPocet_min";
@@ -185,7 +187,7 @@
             // 
             // numPocet_krok
             // 
-            numPocet_krok.Location = new Point(443, 165);
+            numPocet_krok.Location = new Point(422, 110);
             numPocet_krok.Maximum = new decimal(new int[] { 9999999, 0, 0, 0 });
             numPocet_krok.Minimum = new decimal(new int[] { 1, 0, 0, 0 });
             numPocet_krok.Name = "numPocet_krok";
@@ -195,7 +197,7 @@
             // 
             // numPocet_max
             // 
-            numPocet_max.Location = new Point(321, 165);
+            numPocet_max.Location = new Point(309, 110);
             numPocet_max.Maximum = new decimal(new int[] { 9999999, 0, 0, 0 });
             numPocet_max.Minimum = new decimal(new int[] { 1, 0, 0, 0 });
             numPocet_max.Name = "numPocet_max";
@@ -206,8 +208,10 @@
             // checkLog
             // 
             checkLog.AutoSize = true;
+            checkLog.Checked = true;
+            checkLog.CheckState = CheckState.Checked;
             checkLog.Font = new Font("Segoe UI", 11F, FontStyle.Regular, GraphicsUnit.Point);
-            checkLog.Location = new Point(213, 289);
+            checkLog.Location = new Point(452, 170);
             checkLog.Name = "checkLog";
             checkLog.Size = new Size(53, 24);
             checkLog.TabIndex = 15;
@@ -220,6 +224,7 @@
             tbOd.Name = "tbOd";
             tbOd.Size = new Size(84, 23);
             tbOd.TabIndex = 16;
+            tbOd.Text = "9:00";
             // 
             // tbDo
             // 
@@ -227,12 +232,13 @@
             tbDo.Name = "tbDo";
             tbDo.Size = new Size(84, 23);
             tbDo.TabIndex = 17;
+            tbDo.Text = "19:00";
             // 
             // lVystup
             // 
             lVystup.AutoSize = true;
             lVystup.Font = new Font("Segoe UI", 11.25F, FontStyle.Bold, GraphicsUnit.Point);
-            lVystup.Location = new Point(577, 142);
+            lVystup.Location = new Point(521, 143);
             lVystup.Name = "lVystup";
             lVystup.Size = new Size(58, 20);
             lVystup.TabIndex = 18;
@@ -242,7 +248,7 @@
             // 
             lTyp_navstevniku.AutoSize = true;
             lTyp_navstevniku.Font = new Font("Segoe UI", 11.25F, FontStyle.Bold, GraphicsUnit.Point);
-            lTyp_navstevniku.Location = new Point(26, 107);
+            lTyp_navstevniku.Location = new Point(23, 77);
             lTyp_navstevniku.Name = "lTyp_navstevniku";
             lTyp_navstevniku.Size = new Size(126, 20);
             lTyp_navstevniku.TabIndex = 19;
@@ -251,9 +257,10 @@
             // cbTyp_navstevniku
             // 
             cbTyp_navstevniku.FormattingEnabled = true;
-            cbTyp_navstevniku.Location = new Point(166, 104);
+            cbTyp_navstevniku.Items.AddRange(new object[] { "0 - První z listu", "1 - Nejmenší fronta", "2 - Hlad", "3 - Stejné patro" });
+            cbTyp_navstevniku.Location = new Point(158, 74);
             cbTyp_navstevniku.Name = "cbTyp_navstevniku";
-            cbTyp_navstevniku.Size = new Size(121, 23);
+            cbTyp_navstevniku.Size = new Size(145, 23);
             cbTyp_navstevniku.TabIndex = 20;
             // 
             // Form1
