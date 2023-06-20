@@ -63,6 +63,7 @@
             bStart.TabIndex = 0;
             bStart.Text = "START";
             bStart.UseVisualStyleBackColor = true;
+            bStart.Click += bStart_Click;
             // 
             // lOteviraci_doba
             // 
@@ -160,13 +161,15 @@
             bVstup_soubor.TabIndex = 10;
             bVstup_soubor.Text = "Vybrat soubor se vtupními daty";
             bVstup_soubor.UseVisualStyleBackColor = true;
+            bVstup_soubor.Click += bVstup_soubor_Click;
             // 
             // lVstup_soubor
             // 
+            lVstup_soubor.AutoSize = true;
             lVstup_soubor.Font = new Font("Segoe UI", 11F, FontStyle.Regular, GraphicsUnit.Point);
             lVstup_soubor.Location = new Point(26, 251);
             lVstup_soubor.Name = "lVstup_soubor";
-            lVstup_soubor.Size = new Size(214, 23);
+            lVstup_soubor.Size = new Size(100, 20);
             lVstup_soubor.TabIndex = 11;
             lVstup_soubor.Text = "Žádný soubor";
             // 
