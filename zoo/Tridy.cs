@@ -12,7 +12,6 @@ namespace zoo
         public int kdy;
         public Proces kdo;
         public TypUdalosti co;
-        public int index;//index v haldě událostí
         public Udalost(int kdy, Proces kdo, TypUdalosti co)
         {
             this.kdy = kdy;
@@ -69,8 +68,6 @@ namespace zoo
                 prvky[index] = prvky[rodic];
                 prvky[rodic] = tmp;
 
-                prvky[index].objekt.index = index;
-                prvky[rodic].objekt.index = rodic;
             }
             BublejNahoru(rodic);
         }
@@ -94,8 +91,6 @@ namespace zoo
                 prvky[index] = prvky[nejmensi];
                 prvky[nejmensi] = tmp;
 
-                prvky[index].objekt.index = index;
-                prvky[nejmensi].objekt.index = nejmensi;
                 BublejDolu(nejmensi);
             }
         }
@@ -159,11 +154,10 @@ namespace zoo
         {
             halda.Pridej(ud.kdy, ud);            
         }
-        public void Odeber(Udalost ud)
+        public void Odeber(Proces kdo, TypUdalosti co)
         {
-            halda.Odeber(ud.index);// TODO: zkusit jestli funguje
+
         }
-    }
     public abstract class Proces
     {
         public string ID;
@@ -171,9 +165,9 @@ namespace zoo
         protected Model model;
         // TODO: dodělat proces
         public abstract void Zpracuj(Udalost ud);
-        void log(string zprava)
+        protected void log(string zprava)
         {
-            model.form.ZapisDo($"cas {ID} | {zprava}\n", "log");
+            model.form.ZapisDo($"{model.cas}, {ID} | {zprava}\n", "log");
         }
     }
     public class Lanovka : Proces
@@ -206,10 +200,12 @@ namespace zoo
         protected bool obsluhuje;
         protected int rychlost;
         protected List<Navstevnik> fronta;
-        public Stanoviste()
+        public Stanoviste(Model model, string popis)
         {
+            obsluhuje = false;
             fronta = new List<Navstevnik>();
             model.VsechnaStanoviste.Add(this.ID, this);
+            log($"Vytvořeno {this.GetType().Name} {ID}");
         }
         public int DelkaFronty()
         {
@@ -220,9 +216,8 @@ namespace zoo
     }
     public class Obcerstveni : Stanoviste
     {
-        public Obcerstveni(Model model, string popis)
+        public Obcerstveni(Model model, string popis) : base(model, popis)
         {
-            this.model = model;
 
         }
         public override void Zpracuj(Udalost ud)
@@ -232,9 +227,8 @@ namespace zoo
     }
     public class Suvenyry : Stanoviste
     {
-        public Suvenyry(Model model, string popis)
+        public Suvenyry(Model model, string popis) : base(model, popis)
         {
-            this.model = model;
 
         }
         public override void Zpracuj(Udalost ud)
@@ -244,9 +238,8 @@ namespace zoo
     }
     public class Expozice : Stanoviste
     {
-        public Expozice(Model model, string popis)
+        public Expozice(Model model, string popis) : base(model, popis)
         {
-            this.model = model;
         }
         public override void Zpracuj(Udalost ud)
         {
@@ -258,7 +251,6 @@ namespace zoo
         protected int trpelivost;
         protected int hlad;
         protected int prichod;
-
         protected List<Stanoviste> stanoviste;
         //možná list speciálních událostí
         protected abstract Stanoviste VyberDalsiStanoviste();
@@ -318,7 +310,7 @@ namespace zoo
         Kalendar kalendar;
         Lanovka lanovka;
 
-        public Model(Form1 form)
+        public Model(Form1 form, Random rnd)
         {
             this.form = form;
             VytvorStanoviste();
