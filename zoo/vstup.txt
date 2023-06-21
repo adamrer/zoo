@@ -1,6 +1,6 @@
  Expozice | ID, patro, rychlost, kapacita
 ---------------
-E Orangutani,0,30,45
-E Zirafy,0,35,60
-E Ledni medvedi,0,20,30
+E Orangutani,0,15,3
+E Zirafy,0,15,2
+E Ledni medvedi,0,8,2
 

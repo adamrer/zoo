@@ -70,8 +70,15 @@ namespace zoo
 
         }
 
+        private void bSmazLog_Click(object sender, EventArgs e)
+        {
+            tbLog.Text = "";
+        }
 
-
+        private void bSmazOut_Click(object sender, EventArgs e)
+        {
+            tbVystup.Text = "";
+        }
     }
 
 

@@ -24,7 +24,7 @@ namespace zoo
     }
     public class Halda
     {
-        List<Prvek> prvky;
+        public List<Prvek> prvky; //TODO: dát zpátky private
         public Halda()
         {
             prvky = new List<Prvek>();
@@ -42,58 +42,44 @@ namespace zoo
             {
                 return null;
             }
-            if (prvky.Count == 1)
-            {
-                Prvek prvek = prvky[0];
-                prvky.Remove(prvek);
-                return prvek;
-            }
 
             Prvek koren = prvky[0];
             prvky[0] = prvky[prvky.Count - 1];
-            prvky.Remove(prvky[prvky.Count - 1]);
+            prvky.RemoveAt(prvky.Count - 1);
             BublejDolu(0);
 
             return koren;
         }
         void BublejNahoru(int index)
         {
-            int rodic = index / 2;
-            if (index <= 0)
-            {
-                return;
-            }
-
-            if (prvky[index].klic < prvky[rodic].klic)
-            {
+            while (index != 0 && prvky[index].klic < prvky[(index - 1) / 2].klic)
+            {//dokud syn je menší než rodič a není kořen
+                //prohazuj
                 Prvek tmp = prvky[index];
-                prvky[index] = prvky[rodic];
-                prvky[rodic] = tmp;
+                prvky[index] = prvky[(index-1)/2];
+                prvky[(index - 1) / 2] = tmp;
 
+                index = (index - 1) / 2;
             }
-            BublejNahoru(rodic);
         }
         void BublejDolu(int index)
         {
-            int levy = 2 * index + 1;
-            int pravy = 2 * index + 2;
-
-            int nejmensi = index;
-            if (levy < prvky.Count && prvky[levy].klic < prvky[nejmensi].klic)
+            while ((index * 2)+1 < prvky.Count)
             {
-                nejmensi = levy;
-            }
-            if (pravy < prvky.Count && prvky[pravy].klic < prvky[nejmensi].klic)
-            {
-                nejmensi = pravy;
-            }
-            if (nejmensi != index)
-            {
+                int isyn = (index * 2) + 1;
+                if (isyn+1 < prvky.Count && prvky[isyn+1].klic < prvky[isyn].klic)
+                {//vybere menšího syna
+                    isyn += 1;
+                }
+                if (prvky[index].klic < prvky[isyn].klic)
+                {//jsou správně
+                    return;
+                }
+                //prohodím
                 Prvek tmp = prvky[index];
-                prvky[index] = prvky[nejmensi];
-                prvky[nejmensi] = tmp;
-
-                BublejDolu(nejmensi);
+                prvky[index] = prvky[isyn];
+                prvky[isyn] = tmp;
+                index = isyn;
             }
         }
         public int NajdiUdalost(Proces kdo, TypUdalosti co)
@@ -158,7 +144,7 @@ namespace zoo
 
     public class Kalendar
     {
-        Halda halda = new Halda();
+        public Halda halda = new Halda(); //TODO: vrátit na private
         public Udalost Prvni()
         {
             Halda.Prvek prvek = halda.OdeberMin();
@@ -177,7 +163,12 @@ namespace zoo
         }
         public void Odeber(Proces kdo, TypUdalosti co)
         {
-            halda.Odeber(halda.NajdiUdalost(kdo, co));// TODO: zkusit jestli funguje
+            int indexUd = halda.NajdiUdalost(kdo, co);
+            if (indexUd >= 0)//jestli se událost našla
+            {
+                halda.Odeber(halda.NajdiUdalost(kdo, co));// TODO: zkusit jestli funguje
+            }
+            
         }
 
     }
@@ -191,8 +182,12 @@ namespace zoo
         public abstract void Zpracuj(Udalost ud);
         protected void log(string zprava)
         {
-            string l = String.Format("{0,5} {1,12} | ", Prevadec.DigitalniPlusMinuty(model.dOteviraciDoba, model.cas), ID);
-            model.form.ZapisDo(l+zprava+'\n', "log");
+            //if (this.ID == "1")
+            {
+                string l = String.Format("{0,5} {1,12} | ", Prevadec.DigitalniPlusMinuty(model.dOteviraciDoba, model.cas), ID);
+                model.form.ZapisDo(l + zprava + '\n', "log");
+
+            }
         }
     }
     public class Lanovka : Proces
@@ -243,6 +238,7 @@ namespace zoo
         {
             return fronta.Count;
         }
+        public abstract bool ZaradDoFronty(Navstevnik navst);
 
         
     }
@@ -258,6 +254,11 @@ namespace zoo
         {
             
         }
+        public override bool ZaradDoFronty(Navstevnik navst)
+        {
+            fronta.Add(navst);
+            return true;
+        }
     }
     public class Suvenyry : Stanoviste
     {
@@ -270,11 +271,16 @@ namespace zoo
         {
             
         }
+        public override bool ZaradDoFronty(Navstevnik navst)
+        {
+            fronta.Add(navst);
+            return true;
+        }
     }
     public class Expozice : Stanoviste
     {
-        int kapacita;
-        int pocetVolnychMist;
+        public int kapacita;
+        public int pocetVolnychMist;
         public Expozice(Model model, string popis) : base(model, popis)
         {
             string[] popisy = popis.Split(Proces.oddelovac);
@@ -288,7 +294,46 @@ namespace zoo
         }
         public override void Zpracuj(Udalost ud)
         {
+            switch (ud.co)
+            {
+                case TypUdalosti.Start://nastává po obsloužení návštěvníka
+                    if (pocetVolnychMist >= 0 && fronta.Count > 0)
+                    {//uvolnilo se místo a může jít na expozici člověk z fronty
+                    //je na řadě čekající z fronty
+                        Navstevnik navst = fronta[0];
+                        fronta.RemoveAt(0);
+                        log($"{navst.ID} je na rade");
+                        model.Odplanuj(navst, TypUdalosti.Trpelivost);
+                        model.Naplanuj(model.cas + rychlost, navst, TypUdalosti.Obslouzen);
+                        model.Naplanuj(model.cas + rychlost, this, TypUdalosti.Start);
+                    }
+                    else if(pocetVolnychMist >= 0 && pocetVolnychMist < kapacita && fronta.Count == 0)
+                    {//vyprázdnila se fronta, uvolňují se místa
+                        pocetVolnychMist++;
+                    }
+                    break;
+                case TypUdalosti.Obslouzen://
 
+                    break;
+                default:
+                    break;
+            }
+        }
+        public override bool ZaradDoFronty(Navstevnik navst)
+        {
+            if (pocetVolnychMist > 0)
+            {
+                pocetVolnychMist--;
+                model.Naplanuj(model.cas + rychlost, navst, TypUdalosti.Obslouzen);
+                model.Naplanuj(model.cas + rychlost, this, TypUdalosti.Start);
+                return false;
+            }
+            else
+            {
+                log($"Plno, {navst.ID} zarazen do fronty");
+                fronta.Add(navst);
+                return true;
+            }
         }
     }
     public abstract class Navstevnik : Proces
@@ -313,6 +358,7 @@ namespace zoo
 
             log($"Vytvořen {this.GetType().Name} {ID}");
             model.Naplanuj(prichod, this, TypUdalosti.Start);
+            model.Naplanuj(prichod + hlad, this, TypUdalosti.Hlad);
 
         }
         protected abstract Stanoviste VyberDalsiStanoviste();
@@ -325,13 +371,36 @@ namespace zoo
             switch (ud.co)
             {
                 case TypUdalosti.Start:
-                    log($"Startuje");
+                    if (stanoviste.Count > 0)
+                    {
+                        Stanoviste stan = VyberDalsiStanoviste();
+                        if (stan.ZaradDoFronty(this))
+                        {
+                            model.Naplanuj(model.cas + trpelivost, this, TypUdalosti.Trpelivost);
+                            log($"Je ve frontě na {stan.ID}");
+                        }
+                        else
+                        {
+                            log($"Je na {stan.ID}");
+                        }
+                    }
+                    else
+                    {
+                        model.stihliVsechno++;
+                        model.Odplanuj(this, TypUdalosti.Hlad);
+                        log("Odchazi ze zoo");
+                    }
                     break;
                 case TypUdalosti.Trpelivost:
+                    log("Trpelivost");
                     break;
                 case TypUdalosti.Hlad:
+                    log("Hlad");
                     break;
                 case TypUdalosti.Obslouzen:
+                    log("Odchází z " + stanoviste[0]);
+                    stanoviste.RemoveAt(0);
+                    model.Naplanuj(model.cas, this, TypUdalosti.Start);//jdi na dalsi stanoviste
                     break;
                 case TypUdalosti.Specialni:
                     break;
@@ -341,16 +410,8 @@ namespace zoo
         }
         protected override Stanoviste VyberDalsiStanoviste()
         {
-            if (stanoviste.Count <= 0)//TODO: řešit odchod, když má prázdný list
-            {
-                //jdi ven
-                return null;
-            }
-            else
-            {
-                return model.VsechnaStanoviste[stanoviste[0]];
+            return model.VsechnaStanoviste[stanoviste[0]];
 
-            }
         }
     }
     public class Navstevnik_1 : Navstevnik
@@ -394,8 +455,9 @@ namespace zoo
         public int cas;
         public string dOteviraciDoba;
         int mZaviraciDoba;
-        public Dictionary<string,Stanoviste> VsechnaStanoviste; // TODO: dictionary podle jména?
+        public Dictionary<string,Stanoviste> VsechnaStanoviste;
         public Form1 form;
+        public int stihliVsechno;
 
         
         Kalendar kalendar;
@@ -409,20 +471,32 @@ namespace zoo
             VsechnaStanoviste = new Dictionary<string, Stanoviste>();
             dOteviraciDoba = form.dobaOd();
             mZaviraciDoba = Prevadec.Digitalni2Minuty(form.dobaDo()) - Prevadec.Digitalni2Minuty(form.dobaOd());
+            stihliVsechno = 0;
             VytvorStanoviste();
         }
         public void Vypocti(int pocetNavst)
         {
             cas = 0;
             kalendar = new Kalendar();
+            stihliVsechno = 0;
             VytvorNavstevniky(pocetNavst);
             Udalost ud;
             while((ud = kalendar.Prvni()) != null && ud.kdy <= mZaviraciDoba)
             {
+                //if (ud.kdy > kalendar.halda.prvky[1].klic || ud.kdy > kalendar.halda.prvky[2].klic)
+                {
+                    //Console.WriteLine(  );
+                }
                 cas = ud.kdy;
                 ud.kdo.Zpracuj(ud);
                 
             }
+
+            Vystup($"{stihliVsechno} z {pocetNavst} stihli vše");
+        }
+        void Vystup(string zprava)
+        {
+            form.ZapisDo(zprava + '\n', "out");
         }
         void VytvorStanoviste()
         {

@@ -49,6 +49,8 @@
             lVystup = new Label();
             lTyp_navstevniku = new Label();
             cbTyp_navstevniku = new ComboBox();
+            bSmazLog = new Button();
+            bSmazOut = new Button();
             ((System.ComponentModel.ISupportInitialize)numPocet_min).BeginInit();
             ((System.ComponentModel.ISupportInitialize)numPocet_krok).BeginInit();
             ((System.ComponentModel.ISupportInitialize)numPocet_max).BeginInit();
@@ -57,7 +59,7 @@
             // bStart
             // 
             bStart.Font = new Font("Segoe UI", 11F, FontStyle.Regular, GraphicsUnit.Point);
-            bStart.Location = new Point(662, 13);
+            bStart.Location = new Point(662, 34);
             bStart.Name = "bStart";
             bStart.Size = new Size(115, 69);
             bStart.TabIndex = 0;
@@ -263,11 +265,33 @@
             cbTyp_navstevniku.Size = new Size(145, 23);
             cbTyp_navstevniku.TabIndex = 20;
             // 
+            // bSmazLog
+            // 
+            bSmazLog.Location = new Point(26, 422);
+            bSmazLog.Name = "bSmazLog";
+            bSmazLog.Size = new Size(91, 23);
+            bSmazLog.TabIndex = 21;
+            bSmazLog.Text = "Vymazat log";
+            bSmazLog.UseVisualStyleBackColor = true;
+            bSmazLog.Click += bSmazLog_Click;
+            // 
+            // bSmazOut
+            // 
+            bSmazOut.Location = new Point(521, 422);
+            bSmazOut.Name = "bSmazOut";
+            bSmazOut.Size = new Size(103, 23);
+            bSmazOut.TabIndex = 22;
+            bSmazOut.Text = "Vymazat výstup";
+            bSmazOut.UseVisualStyleBackColor = true;
+            bSmazOut.Click += bSmazOut_Click;
+            // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(800, 450);
+            Controls.Add(bSmazOut);
+            Controls.Add(bSmazLog);
             Controls.Add(cbTyp_navstevniku);
             Controls.Add(lTyp_navstevniku);
             Controls.Add(lVystup);
@@ -322,5 +346,7 @@
         private Label lVystup;
         private Label lTyp_navstevniku;
         private ComboBox cbTyp_navstevniku;
+        private Button bSmazLog;
+        private Button bSmazOut;
     }
 }
