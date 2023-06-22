@@ -1,6 +1,41 @@
- Expozice | ID, patro, rychlost, kapacita
----------------
-E Orangutani,0,15,3
-E Zirafy,0,15,2
-E Ledni medvedi,0,8,2
+ Lanovka |	ID			patro	doba pøepravy	doba mezi naloženími
+---------------------------------------------------------------------------
+L			Lanovka		0		10				5
+
+ Expozice |		ID					patro	rychlost	kapacita
+---------------------------------------------------------------------------
+E				Žirafy				0		10			10
+E				Ptaci mokrady		0		15			100
+E				Pavilon selem		0		20			80
+E				Velemlokarium		0		10			30
+E				Vodni svet			0		30			80
+E				Opici ostrovy		0		13			70
+E				Rezervace Bororo	0		17			60
+E				Darwinuv krater		0		10			40
+E				Ostrov lemuru		0		12			40
+E				Pavilon tucnaku		0		13			50
+E				Lachtani			0		14			120
+E				Rakosuv pavilon		0		10			50
+
+E				Plane				1		30			130
+E				Napric kontinenty	1		40			180
+E				Afrika				1		20			140
+E				Papousci stezka		1		15			150
+E				Australie			1		13			120
+E				Ledni medvedi		1		10			80
+E				Indoneksa dzungle	1		19			80
+E				Afrika zblizka		1		20			90
+E				Africky dum			1		15			70
+E				Pavilon hrochu		1		12			70
+E				Udoli slonu			1		20			180
+E				Seversky les		1		35			200
+E				Africka savana		1		30			150
+E				Rezervace Dja		1		20			60
+
+ Obèerstvení | ID, patro, rychlost
+ ----------------
+
+ Suvenýry | ID, patro, rychlost
+ ----------------
+
 

@@ -51,6 +51,8 @@
             cbTyp_navstevniku = new ComboBox();
             bSmazLog = new Button();
             bSmazOut = new Button();
+            tbFiltr = new TextBox();
+            label1 = new Label();
             ((System.ComponentModel.ISupportInitialize)numPocet_min).BeginInit();
             ((System.ComponentModel.ISupportInitialize)numPocet_krok).BeginInit();
             ((System.ComponentModel.ISupportInitialize)numPocet_max).BeginInit();
@@ -143,14 +145,14 @@
             tbLog.Location = new Point(26, 200);
             tbLog.Name = "tbLog";
             tbLog.ReadOnly = true;
-            tbLog.Size = new Size(479, 216);
+            tbLog.Size = new Size(557, 216);
             tbLog.TabIndex = 8;
             tbLog.Text = "";
             // 
             // tbVystup
             // 
             tbVystup.Font = new Font("Consolas", 9F, FontStyle.Regular, GraphicsUnit.Point);
-            tbVystup.Location = new Point(521, 165);
+            tbVystup.Location = new Point(606, 170);
             tbVystup.Name = "tbVystup";
             tbVystup.ReadOnly = true;
             tbVystup.Size = new Size(256, 256);
@@ -173,9 +175,9 @@
             lVstup_soubor.Font = new Font("Segoe UI", 11F, FontStyle.Regular, GraphicsUnit.Point);
             lVstup_soubor.Location = new Point(26, 170);
             lVstup_soubor.Name = "lVstup_soubor";
-            lVstup_soubor.Size = new Size(100, 20);
+            lVstup_soubor.Size = new Size(288, 20);
             lVstup_soubor.TabIndex = 11;
-            lVstup_soubor.Text = "Žádný soubor";
+            lVstup_soubor.Text = "E:\\MFF\\programování 2\\zoo\\zoo\\vstup.txt";
             // 
             // numPocet_min
             // 
@@ -185,7 +187,8 @@
             numPocet_min.Name = "numPocet_min";
             numPocet_min.Size = new Size(62, 23);
             numPocet_min.TabIndex = 12;
-            numPocet_min.Value = new decimal(new int[] { 1, 0, 0, 0 });
+            numPocet_min.Value = new decimal(new int[] { 5, 0, 0, 0 });
+            numPocet_min.ValueChanged += numPocet_min_ValueChanged;
             // 
             // numPocet_krok
             // 
@@ -205,7 +208,8 @@
             numPocet_max.Name = "numPocet_max";
             numPocet_max.Size = new Size(62, 23);
             numPocet_max.TabIndex = 14;
-            numPocet_max.Value = new decimal(new int[] { 1, 0, 0, 0 });
+            numPocet_max.Value = new decimal(new int[] { 5, 0, 0, 0 });
+            numPocet_max.ValueChanged += numPocet_max_ValueChanged;
             // 
             // checkLog
             // 
@@ -213,7 +217,7 @@
             checkLog.Checked = true;
             checkLog.CheckState = CheckState.Checked;
             checkLog.Font = new Font("Segoe UI", 11F, FontStyle.Regular, GraphicsUnit.Point);
-            checkLog.Location = new Point(452, 170);
+            checkLog.Location = new Point(530, 170);
             checkLog.Name = "checkLog";
             checkLog.Size = new Size(53, 24);
             checkLog.TabIndex = 15;
@@ -240,7 +244,7 @@
             // 
             lVystup.AutoSize = true;
             lVystup.Font = new Font("Segoe UI", 11.25F, FontStyle.Bold, GraphicsUnit.Point);
-            lVystup.Location = new Point(521, 143);
+            lVystup.Location = new Point(606, 147);
             lVystup.Name = "lVystup";
             lVystup.Size = new Size(58, 20);
             lVystup.TabIndex = 18;
@@ -277,7 +281,7 @@
             // 
             // bSmazOut
             // 
-            bSmazOut.Location = new Point(521, 422);
+            bSmazOut.Location = new Point(606, 426);
             bSmazOut.Name = "bSmazOut";
             bSmazOut.Size = new Size(103, 23);
             bSmazOut.TabIndex = 22;
@@ -285,11 +289,30 @@
             bSmazOut.UseVisualStyleBackColor = true;
             bSmazOut.Click += bSmazOut_Click;
             // 
+            // tbFiltr
+            // 
+            tbFiltr.Location = new Point(408, 170);
+            tbFiltr.Name = "tbFiltr";
+            tbFiltr.Size = new Size(100, 23);
+            tbFiltr.TabIndex = 23;
+            // 
+            // label1
+            // 
+            label1.AutoSize = true;
+            label1.Font = new Font("Segoe UI", 11.25F, FontStyle.Bold, GraphicsUnit.Point);
+            label1.Location = new Point(360, 170);
+            label1.Name = "label1";
+            label1.Size = new Size(42, 20);
+            label1.TabIndex = 24;
+            label1.Text = "Filtr:";
+            // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(800, 450);
+            ClientSize = new Size(874, 484);
+            Controls.Add(label1);
+            Controls.Add(tbFiltr);
             Controls.Add(bSmazOut);
             Controls.Add(bSmazLog);
             Controls.Add(cbTyp_navstevniku);
@@ -348,5 +371,7 @@
         private ComboBox cbTyp_navstevniku;
         private Button bSmazLog;
         private Button bSmazOut;
+        private TextBox tbFiltr;
+        private Label label1;
     }
 }

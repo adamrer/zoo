@@ -11,6 +11,24 @@ namespace zoo
             InitializeComponent();
             _Form1 = this;
         }
+        public string VstupniSoubor
+        {
+            get { return lVstup_soubor.Text; }
+        }
+        public string DobaOd
+        {
+            get { return tbOd.Text; }
+        }
+        public string DobaDo
+        {
+            get { return tbDo.Text; }
+        }
+
+        public string Filtr
+        {
+            get { return tbFiltr.Text; }
+        }
+
 
         private void Form1_Load(object sender, EventArgs e)
         {
@@ -32,40 +50,32 @@ namespace zoo
         {
             if (checkLog.Checked && kam == "log")
             {
-                tbLog.Text += zprava;
+                tbLog.AppendText( zprava +'\n' );
+                tbLog.ScrollToCaret();
             }
             else if (kam == "out" || kam == "vystup")
             {
-                tbVystup.Text += zprava;
+                tbVystup.AppendText(zprava +'\n');
+                tbLog.ScrollToCaret();
             }
         }
 
-        public string VstupniSoubor()
+
+        private async void bStart_Click(object sender, EventArgs e)
         {
-            return lVstup_soubor.Text;
-        }
-
-        public string dobaOd()
-        {
-            return tbOd.Text;
-        }
-        public string dobaDo()
-        {
-            return tbDo.Text;
-        }
-
-
-
-
-        private void bStart_Click(object sender, EventArgs e)
-        {
-            //musí být vyplnìny všechny kolonky
-            //vytvoøí model, spustí Vypocti() s poèty návštìvníkù
-            // TODO: for loop pøes poèty návštìvníkù s krokem
+            //TODO: musí být vyplnìny všechny kolonky
 
             Random random = new Random(12345);
             Model model = new Model(_Form1, random);
-            model.Vypocti((int)numPocet_min.Value);
+
+            
+            for (int pocet = (int)numPocet_min.Value; pocet <= (int)numPocet_max.Value; pocet += (int)numPocet_krok.Value)
+            {
+                ZapisDo("======== OTEVØENO ========", "log");
+                ZapisDo(model.Vypocti(pocet), "out");
+                ZapisDo("======== ZAVØENO ========", "log");
+            }
+
 
 
         }
@@ -79,9 +89,21 @@ namespace zoo
         {
             tbVystup.Text = "";
         }
+
+        private void numPocet_min_ValueChanged(object sender, EventArgs e)
+        {
+            if (numPocet_min.Value > numPocet_max.Value)
+            {
+                numPocet_max.Value = numPocet_min.Value;
+            }
+        }
+
+        private void numPocet_max_ValueChanged(object sender, EventArgs e)
+        {
+            if (numPocet_max.Value < numPocet_min.Value)
+            {
+                numPocet_min.Value = numPocet_max.Value;
+            }
+        }
     }
-
-
-
-
 }
