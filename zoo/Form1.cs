@@ -64,7 +64,7 @@ namespace zoo
         private async void bStart_Click(object sender, EventArgs e)
         {
             //TODO: musí být vyplnìny všechny kolonky
-
+            bSmazLog_Click(sender, e);
             Random random = new Random(12345);
             Model model = new Model(_Form1, random);
 

@@ -1,6 +1,6 @@
- Lanovka |	ID			patro	doba pøepravy	doba mezi naloženími
+ Lanovka |		ID			patro	doba pøepravy	doba mezi naloženími
 ---------------------------------------------------------------------------
-L			Lanovka		0		10				2
+L				Lanovka		0		10				2
 
  Expozice |		ID					patro	rychlost	kapacita
 ---------------------------------------------------------------------------
@@ -37,8 +37,13 @@ E				Rezervace Dja		1		20			60
 O				U Hrocha	1		20 
 O				U Supa		0		15
 O				U Gibona	0		7
+O				U Vyder		1		12
 
- Suvenýry | ID, patro, rychlost
- ----------------
+ Suvenýry |		ID						patro	rychlost
+ ------------------------------------------------------------------------
 
+S				U Zelv					0		20
+S				Mineraly a fosilie		0		17
+S				Dja						1		13
+S				U Slonu					1		30
 

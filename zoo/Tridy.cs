@@ -223,7 +223,7 @@ namespace zoo
             naposledySedelDolu = -1;
         }
         void NalozZFronty(ref List<Navstevnik> f, Smer s)
-        {
+        {//TODO: přepsat s bool obsluhuje?
 
             string smer;
             if (s == Smer.Nahoru)
@@ -312,6 +312,7 @@ namespace zoo
             ID = popisy[0];
             patro = int.Parse(popisy[1]);
             rychlost = int.Parse(popisy[2]);
+            log($"Vytvořeno {this.GetType().Name} {this.ID}");
         }
         public int DelkaFronty
         {
@@ -376,18 +377,46 @@ namespace zoo
     {
         public Suvenyry(Model model, string popis) : base(model, popis)
         {
-
             model.VsechnaStanoviste.Add(this.ID, this);
         }
         public override void Zpracuj(Udalost ud)
         {
-            
+            switch (ud.co)
+            {
+                case TypUdalosti.Start:
+                    if (fronta.Count == 0)
+                    {
+                        obsluhuje = false;
+                    }
+                    else
+                    {
+                        Navstevnik navst = fronta[0];
+                        fronta.RemoveAt(0);
+                        model.Odplanuj(navst, TypUdalosti.Trpelivost);
+                        model.Naplanuj(model.cas + rychlost, navst, TypUdalosti.Obslouzen);
+
+                        model.Naplanuj(model.cas + rychlost, this, TypUdalosti.Start);
+
+                    }
+                    break;
+                default:
+                    break;
+            }
         }
         public override bool ZaradDoFronty(Navstevnik navst)
         {
             fronta.Add(navst);
+
+            if (obsluhuje) ;
+            else
+            {
+                obsluhuje = true;
+                model.Naplanuj(model.cas, this, TypUdalosti.Start);
+
+            }
             return true;
         }
+
     }
     public class Expozice : Stanoviste
     {
@@ -402,7 +431,6 @@ namespace zoo
 
 
             model.VsechnaStanoviste.Add(this.ID, this);
-            log($"Vytvořeno {this.GetType().Name} {ID}");
         }
         public override void Zpracuj(Udalost ud)
         {
@@ -452,11 +480,11 @@ namespace zoo
         protected int trpelivost;
         protected int hlad;
         protected int prichod;
+        protected int rychlostJezeni;
         protected int patroPrichodu;//vrací se k autu
         protected int indexDalsihoObc;
         public bool obsluhovan;
         public bool jede;
-        protected int rychlostJezeni;
 
         protected List<string> obcerstveni;
         protected List<string> stanoviste;// jen jména, ušetří paměť, ale budu muset hledat podle jména (mám dictionary)
@@ -575,7 +603,7 @@ namespace zoo
                     }
                     else
                     {
-                        Obcerstveni obc = VyberDalsiObcerstveni();//TODO: je na lanovce a dostane hlad
+                        Obcerstveni obc = VyberDalsiObcerstveni();
                         if (model.VsechnaStanoviste[stanoviste[0]].VyradZFronty(this))
                         {
                             model.Odplanuj(this, TypUdalosti.Trpelivost);
