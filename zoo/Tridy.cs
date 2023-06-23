@@ -327,7 +327,54 @@ namespace zoo
 
         
     }
-    public class Obcerstveni : Stanoviste
+    //TODO: obcerstveni a suvenyry do jedne tridy, ze ktere budou dedit, aby se neopakovala jejich logika
+    public abstract class Obchod : Stanoviste
+    {
+        public Obchod(Model model, string popis) : base(model, popis)
+        {
+
+        }
+        public override void Zpracuj(Udalost ud)
+        {
+            switch (ud.co)
+            {
+                case TypUdalosti.Start:
+                    if (fronta.Count == 0)
+                    {
+                        obsluhuje = false;
+                    }
+                    else
+                    {
+                        Navstevnik navst = fronta[0];
+                        fronta.RemoveAt(0);
+                        model.Odplanuj(navst, TypUdalosti.Trpelivost);
+                        model.Naplanuj(model.cas + rychlost, navst, TypUdalosti.Obslouzen);
+
+                        model.Naplanuj(model.cas + rychlost, this, TypUdalosti.Start);
+
+                    }
+                    break;
+                default:
+                    break;
+            }
+        }
+        public override bool ZaradDoFronty(Navstevnik navst)
+        {
+            fronta.Add(navst);
+
+            if (obsluhuje) ;
+            else
+            {
+                obsluhuje = true;
+                model.Naplanuj(model.cas, this, TypUdalosti.Start);
+
+            }
+            return true;
+        }
+
+    }
+    public class Obcerstveni : Obchod
+
     {
 
         public Obcerstveni(Model model, string popis) : base(model, popis)
@@ -335,86 +382,12 @@ namespace zoo
 
             model.VsechnaObcerstveni.Add(this.ID, this);
         }
-        public override void Zpracuj(Udalost ud)
-        {
-            switch (ud.co)
-            {
-                case TypUdalosti.Start:
-                    if (fronta.Count == 0)
-                    {
-                        obsluhuje = false;
-                    }
-                    else
-                    {
-                        Navstevnik navst = fronta[0];
-                        fronta.RemoveAt(0);
-                        model.Odplanuj(navst, TypUdalosti.Trpelivost);
-                        model.Naplanuj(model.cas + rychlost, navst, TypUdalosti.Obslouzen);
-
-                        model.Naplanuj(model.cas + rychlost, this, TypUdalosti.Start);
-                            
-                    }
-                    break;
-                default:
-                    break;
-            }
-        }
-        public override bool ZaradDoFronty(Navstevnik navst)
-        {
-            fronta.Add(navst);
-
-            if (obsluhuje) ;
-            else
-            {
-                obsluhuje = true;
-                model.Naplanuj(model.cas, this, TypUdalosti.Start);
-
-            }
-            return true;
-        }
     }
-    public class Suvenyry : Stanoviste
+    public class Suvenyry : Obchod
     {
         public Suvenyry(Model model, string popis) : base(model, popis)
         {
             model.VsechnaStanoviste.Add(this.ID, this);
-        }
-        public override void Zpracuj(Udalost ud)
-        {
-            switch (ud.co)
-            {
-                case TypUdalosti.Start:
-                    if (fronta.Count == 0)
-                    {
-                        obsluhuje = false;
-                    }
-                    else
-                    {
-                        Navstevnik navst = fronta[0];
-                        fronta.RemoveAt(0);
-                        model.Odplanuj(navst, TypUdalosti.Trpelivost);
-                        model.Naplanuj(model.cas + rychlost, navst, TypUdalosti.Obslouzen);
-
-                        model.Naplanuj(model.cas + rychlost, this, TypUdalosti.Start);
-
-                    }
-                    break;
-                default:
-                    break;
-            }
-        }
-        public override bool ZaradDoFronty(Navstevnik navst)
-        {
-            fronta.Add(navst);
-
-            if (obsluhuje) ;
-            else
-            {
-                obsluhuje = true;
-                model.Naplanuj(model.cas, this, TypUdalosti.Start);
-
-            }
-            return true;
         }
 
     }
@@ -867,6 +840,8 @@ namespace zoo
                 
             }
         }
+
+        
 
         public void Naplanuj(int kdy, Proces kdo, TypUdalosti co) 
         {
