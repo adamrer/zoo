@@ -285,6 +285,17 @@ namespace zoo
             model.Naplanuj(model.cas, this, TypUdalosti.Start);
             
         }
+
+        public bool VyradZFronty(Navstevnik navst)
+        {
+            bool jeVeFronte = frontaNahoru.Remove(navst);
+            if (jeVeFronte) return jeVeFronte;//vyrazen
+
+            jeVeFronte = frontaDolu.Remove(navst);
+            if (jeVeFronte) return jeVeFronte;//vyrazen
+            
+            return jeVeFronte;//nebyl tam
+        }
     }
     public abstract class Stanoviste : Proces
     {
@@ -521,6 +532,7 @@ namespace zoo
                         else
                         {
                             model.lanovka.ZaradDoFronty(this);
+                            model.Naplanuj(model.cas + trpelivost, this, TypUdalosti.Trpelivost);
                         }
 
                     }
@@ -577,8 +589,13 @@ namespace zoo
                             stanoviste.Insert(0, obc.ID);
                             if (!jede)
                             {
-                                model.Naplanuj(model.cas, this, TypUdalosti.Start);//příště navštíví občerstvení
+                                if (model.lanovka.VyradZFronty(this)) model.Odplanuj(this, TypUdalosti.Trpelivost);
+
+                                model.Naplanuj(model.cas, this, TypUdalosti.Start);
+                                //příště navštíví občerstvení
+
                             }//když jede, tak se zavolá start, když vystupuje
+
 
                         }
 
