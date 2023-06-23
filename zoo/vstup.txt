@@ -1,6 +1,6 @@
  Lanovka |	ID			patro	doba pøepravy	doba mezi naloženími
 ---------------------------------------------------------------------------
-L			Lanovka		0		10				5
+L			Lanovka		0		10				2
 
  Expozice |		ID					patro	rychlost	kapacita
 ---------------------------------------------------------------------------
@@ -23,7 +23,7 @@ E				Afrika				1		20			140
 E				Papousci stezka		1		15			150
 E				Australie			1		13			120
 E				Ledni medvedi		1		10			80
-E				Indoneksa dzungle	1		19			80
+E				Indoneska dzungle	1		19			80
 E				Afrika zblizka		1		20			90
 E				Africky dum			1		15			70
 E				Pavilon hrochu		1		12			70
@@ -32,8 +32,11 @@ E				Seversky les		1		35			200
 E				Africka savana		1		30			150
 E				Rezervace Dja		1		20			60
 
- Obèerstvení | ID, patro, rychlost
- ----------------
+ Obèerstvení |	ID			patro	rychlost (objednání, èekání na jídlo)
+ ------------------------------------------------------------------------
+O				U Hrocha	1		20 
+O				U Supa		0		15
+O				U Gibona	0		7
 
  Suvenýry | ID, patro, rychlost
  ----------------
