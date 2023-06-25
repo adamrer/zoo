@@ -171,11 +171,10 @@
             // 
             // lVstup_soubor
             // 
-            lVstup_soubor.AutoSize = true;
             lVstup_soubor.Font = new Font("Segoe UI", 11F, FontStyle.Regular, GraphicsUnit.Point);
             lVstup_soubor.Location = new Point(26, 170);
             lVstup_soubor.Name = "lVstup_soubor";
-            lVstup_soubor.Size = new Size(288, 20);
+            lVstup_soubor.Size = new Size(328, 20);
             lVstup_soubor.TabIndex = 11;
             lVstup_soubor.Text = "E:\\MFF\\programování 2\\zoo\\zoo\\vstup.txt";
             // 

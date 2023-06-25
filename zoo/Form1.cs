@@ -24,6 +24,11 @@ namespace zoo
             get { return tbDo.Text; }
         }
 
+        public int VybranyTyp
+        {
+            get { return cbTyp_navstevniku.SelectedIndex; }
+        }
+
         public string Filtr
         {
             get { return tbFiltr.Text; }
@@ -50,12 +55,12 @@ namespace zoo
         {
             if (checkLog.Checked && kam == "log")
             {
-                tbLog.AppendText( zprava +'\n' );
+                tbLog.AppendText(zprava + '\n');
                 tbLog.ScrollToCaret();
             }
             else if (kam == "out" || kam == "vystup")
             {
-                tbVystup.AppendText(zprava +'\n');
+                tbVystup.AppendText(zprava + '\n');
                 tbLog.ScrollToCaret();
             }
         }
@@ -68,7 +73,7 @@ namespace zoo
             Random random = new Random(12345);
             Model model = new Model(_Form1, random);
 
-            
+
             for (int pocet = (int)numPocet_min.Value; pocet <= (int)numPocet_max.Value; pocet += (int)numPocet_krok.Value)
             {
                 ZapisDo("======== OTEVØENO ========", "log");

@@ -1,6 +1,6 @@
  Lanovka |		ID			patro	doba pøepravy	doba mezi naloženími
 ---------------------------------------------------------------------------
-L				Lanovka		0		10				2
+L				Lanovka		0		7				1
 
  Expozice |		ID					patro	rychlost	kapacita
 ---------------------------------------------------------------------------
@@ -32,7 +32,7 @@ E				Seversky les		1		35			200
 E				Africka savana		1		30			150
 E				Rezervace Dja		1		20			60
 
- Obèerstvení |	ID			patro	rychlost (objednání, èekání na jídlo)
+ Obèerstvení |	ID			patro	rychlost (objednání + èekání na jídlo)
  ------------------------------------------------------------------------
 O				U Hrocha	1		20 
 O				U Supa		0		15
