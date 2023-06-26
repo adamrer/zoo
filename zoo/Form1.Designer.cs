@@ -262,7 +262,7 @@
             // cbTyp_navstevniku
             // 
             cbTyp_navstevniku.FormattingEnabled = true;
-            cbTyp_navstevniku.Items.AddRange(new object[] { "0 - První z listu", "1 - Nejmenší fronta", "2 - Hlad", "3 - Stejné patro" });
+            cbTyp_navstevniku.Items.AddRange(new object[] { "0 - Další v listu", "1 - Stejné patro", "2 - Nejmenší fronta", "Všichni" });
             cbTyp_navstevniku.Location = new Point(158, 74);
             cbTyp_navstevniku.Name = "cbTyp_navstevniku";
             cbTyp_navstevniku.Size = new Size(145, 23);

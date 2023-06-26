@@ -197,10 +197,11 @@ namespace zoo
         int dobaPrepravy;
         int dobaMeziNalozenim;
         Dictionary<int, List<Navstevnik>> fronty;//TODO: fronty v dictionary. 
-        int horniPatro;//TODO: lanovka může být mezi jinými patry než 0 a 1
+        //TODO: lanovka může být mezi jinými patry než 0 a 1
         
         List<Navstevnik> frontaNahoru;
         List<Navstevnik> frontaDolu;
+
         int naposledySedelNahoru;
         int naposledySedelDolu;
         public Lanovka(Model model, string popis)
@@ -208,7 +209,7 @@ namespace zoo
             this.model = model;
             string[] popisy = popis.Split(Proces.oddelovac, StringSplitOptions.RemoveEmptyEntries);
             this.ID = popisy[0];
-            this.patro = int.Parse(popisy[1]); // TODO: co s patrem u lanovky
+            this.patro = int.Parse(popisy[1]); // dolní patro, označuje lanovku. Lanovka bude mezi patry: patro a patro+1
             this.dobaPrepravy = int.Parse(popisy[2]);
             this.dobaMeziNalozenim = int.Parse(popisy[3]);
             this.frontaNahoru = new List<Navstevnik>();
@@ -217,7 +218,7 @@ namespace zoo
             naposledySedelDolu = -1;
             naposledySedelNahoru = -1;
 
-            
+            this.model.lanovky.Insert(patro, this);
 
             log($"Vytvořena lanovka {ID}");
         }
@@ -268,7 +269,7 @@ namespace zoo
                         }
                     }
                     else
-                    {
+                    {//naplanuj udalost až bude možné nasednout
                         model.Naplanuj((dobaMeziNalozenim - (model.cas % dobaMeziNalozenim)) + model.cas, this, TypUdalosti.Start);
                     }
                 
@@ -283,7 +284,7 @@ namespace zoo
 
         public void ZaradDoFronty(Navstevnik navst)
         {
-            if (navst.patro == 0) frontaNahoru.Add(navst);
+            if (navst.patro == patro) frontaNahoru.Add(navst);
             else frontaDolu.Add(navst);
 
             model.Naplanuj(model.cas, this, TypUdalosti.Start);
@@ -484,65 +485,77 @@ namespace zoo
 
 
 
-        log($"Vytvořen {this.GetType().Name} Prichod: {Prevadec.DigitalniPlusMinuty(model.dOteviraciDoba, prichod)} #Stanov. {stanoviste.Count}");
+            log($"Vytvořen {this.GetType().Name} Prichod: {Prevadec.DigitalniPlusMinuty(model.dOteviraciDoba, prichod)} #Stanov. {stanoviste.Count}");
             model.Naplanuj(prichod, this, TypUdalosti.Start);
             model.Naplanuj(prichod + hlad, this, TypUdalosti.Hlad);
 
         }
+
         public override void Zpracuj(Udalost ud)
         {
             switch (ud.co)
             {
                 case TypUdalosti.Start:
 
-                    //if (!obsluhovan)
-                    { 
-                        if (stanoviste.Count > 0)
-                        {//má kam jít
+                    if (stanoviste.Count > 0)
+                    {//má kam jít
 
-                            Stanoviste stan = VyberDalsiStanoviste();
-                            if (stan.patro == patro)
-                            {// stanoviště je ve stejném patře
+                        Stanoviste stan = VyberDalsiStanoviste();
+                        if (stan.patro == patro)
+                        {// stanoviště je ve stejném patře
 
 
-                                if (stan.ZaradDoFronty(this))
-                                {//dostal se do fronty
-                                    model.Naplanuj(model.cas + trpelivost, this, TypUdalosti.Trpelivost);
-                                    log($"Je ve frontě na {stan.ID}");
-                                }
-                                else
-                                {//je rovnou obsloužen
-                                    log($"Je na {stan.ID}");
-                                }
+                            if (stan.ZaradDoFronty(this))
+                            {//dostal se do fronty
+                                model.Naplanuj(model.cas + trpelivost, this, TypUdalosti.Trpelivost);
+                                log($"Je ve frontě na {stan.ID}");
                             }
                             else
-                            {//musí na lanovku
-
-                                model.lanovka.ZaradDoFronty(this);
-                                string smer = "nahoru";
-                                if (patro == 1) smer = "dolu";
-                                log($"Ceka ve fronte na lanovku smer {smer}");
+                            {//je rovnou obsloužen
+                                log($"Je na {stan.ID}");
                             }
-
-                            
                         }
                         else
-                        {//odchází
-                            model.Odplanuj(this, TypUdalosti.Hlad);
-
-                            if (patro == patroPrichodu)
+                        {//musí na lanovku
+                            if (model.lanovky.Count > patro-1)
                             {
-                                model.stihliVsechno++;
-                                log("Odchazi ze zoo");
+                                VyberLanovku(stan.patro).ZaradDoFronty(this);
+
+                                string smer = "nahoru";
+                                if (stan.patro < patro)
+                                {//jede dolu
+                                    smer = "dolu";
+                                }
+
+                                //model.lanovka.ZaradDoFronty(this);//TODO: jak vybrat lanovku
+
+                                log($"Ceka ve fronte na lanovku v patre {patro} smer {smer}");
                             }
                             else
                             {
-                                model.lanovka.ZaradDoFronty(this);
-                                model.Naplanuj(model.cas + trpelivost, this, TypUdalosti.Trpelivost);
+                                log("neni tu lanovka");
                             }
-
                         }
+
+                            
                     }
+                    else
+                    {//odchází
+                        model.Odplanuj(this, TypUdalosti.Hlad);
+
+                        if (patro == patroPrichodu)
+                        {
+                            model.stihliVsechno++;
+                            log("Odchazi ze zoo");
+                        }
+                        else
+                        {
+                            Lanovka l = VyberLanovku(patroPrichodu);
+                            l.ZaradDoFronty(this);
+                        }
+
+                    }
+                    
 
                     break;
 
@@ -597,20 +610,16 @@ namespace zoo
                             stanoviste.Insert(0, obc.ID);
                             if (!jede)
                             {
-                                if (model.lanovka.VyradZFronty(this)) model.Odplanuj(this, TypUdalosti.Trpelivost);
+                                //vyrad z fronty na lanovku 
+                                if (VyberLanovku(model.VsechnaStanoviste[stanoviste[1]].patro).VyradZFronty(this)) model.Odplanuj(this, TypUdalosti.Trpelivost);
 
                                 model.Naplanuj(model.cas, this, TypUdalosti.Start);
                                 //příště navštíví občerstvení
 
                             }//když jede, tak se zavolá start při vystupování
                              //jinak by se start volal dvakrát
-
-
                         }
-
-
                         log($"Má hlad. Nají se {obc.ID}");
-
                     }
                     break;
 
@@ -643,10 +652,18 @@ namespace zoo
                 case TypUdalosti.Dojel:
                     log("Dojel lanovkou");
                     jede = false;
-                    if (patro == 0) patro = 1;
-                    else patro = 0;
+                    Stanoviste st;
+                    //vyber stanoviste kam jede
+                    try { st = model.VsechnaStanoviste[stanoviste[0]]; }
+                    catch { st = model.VsechnaObcerstveni[stanoviste[0]]; }
+                    //podle smeru zmen patro
+                    if (st.patro > patro) patro++;
+                    else if (st.patro == patro) ;// při jízdě si přidal občerstvení se stejným patrem do listu
+                    else patro--;
+
                     model.Naplanuj(model.cas, this, TypUdalosti.Start);
                     break;
+
                 case TypUdalosti.Specialni:
 
                     break;
@@ -657,9 +674,21 @@ namespace zoo
         }
         //první stanoviště v listu musí být to, kde právě je nebo se chystá jít
         protected abstract Stanoviste VyberDalsiStanoviste();
-        protected abstract Obcerstveni VyberDalsiObcerstveni();
+        protected abstract Obcerstveni VyberDalsiObcerstveni(); 
+        protected Lanovka VyberLanovku(int patroKam)
+        {
+            Lanovka lanovka;
+            if (patroKam > patro)
+            {//jede nahoru, jde na lanovku s nižším patrem, ve kterém je tento návštěvník
+                lanovka = model.lanovky[patro];
+            }
+            else
+            {//jede dolu
+                lanovka = model.lanovky[patro - 1];
+            }
+            return lanovka;
+        }
     }
-    //TODO: návštěvníci nejsou hotoví, zatím každý dělá to samé
     public class Navstevnik_0 : Navstevnik 
     {//Základní návštěvník. Vždy si vybere to první stanoviště z listu.
         public Navstevnik_0(Model model, int[] popis, List<string> stanoviste, List<string> obcerstveni) : base(model, popis, stanoviste, obcerstveni) { }
@@ -783,6 +812,7 @@ namespace zoo
             return vybraneObc;
         }
     }
+    //TODO: dodělat čtvrtého návštěvníka
     public class Navstevnik_3 : Navstevnik
     {
         public Navstevnik_3(Model model, int[] popis, List<string> stanoviste, List<string> obcerstveni) : base(model, popis, stanoviste, obcerstveni) { }
@@ -806,7 +836,8 @@ namespace zoo
         int mZaviraciDoba;
         public Dictionary<string,Stanoviste> VsechnaStanoviste;
         public Dictionary<string, Obcerstveni> VsechnaObcerstveni;
-        public Lanovka lanovka;
+        //public Lanovka lanovka;
+        public List<Lanovka> lanovky;//jedna lanovka na patro
         public Form1 form;
         public int stihliVsechno;
 
@@ -822,6 +853,7 @@ namespace zoo
             VsechnaStanoviste = new Dictionary<string, Stanoviste>();
             VsechnaObcerstveni = new Dictionary<string, Obcerstveni>();
             dOteviraciDoba = form.DobaOd;//digitálně
+            lanovky = new List<Lanovka>();
 
             int mOd = Prevadec.Digitalni2Minuty(form.DobaOd);
             int mDo = Prevadec.Digitalni2Minuty(form.DobaDo);
@@ -841,7 +873,11 @@ namespace zoo
             stihliVsechno = 0;
 
             VytvorNavstevniky(pocetNavst);
-            lanovka.Reset();
+            foreach (Lanovka lanovka in lanovky)
+            {
+                lanovka.Reset();
+            }
+            //TODO: at nemusím resetovat lanovky
 
             Udalost ud;
             while((ud = kalendar.Prvni()) != null && ud.kdy <= mZaviraciDoba)
@@ -865,7 +901,8 @@ namespace zoo
                     switch (radek[0])
                     {
                         case 'L':
-                            lanovka = new Lanovka(this, radek[2..]);
+                            new Lanovka(this, radek[2..]);
+
                             break;
                         case 'O':
                             new Obcerstveni(this, radek[2..]);
@@ -909,8 +946,8 @@ namespace zoo
                 }
                 int[] popis = new int[6] { i, rnd.Next(0, 2), rnd.Next(10, 240), rnd.Next(60, 360), rnd.Next(5, 90), rnd.Next(0, mZaviraciDoba/2) };
                 //                         ID,patro,          trpelivost,       hlad,              rychlost jezeni, prichod,
-                new Navstevnik_1(this, popis, stanoviste, obcerstveni);
-                //RozhodniDruhNavstAVytvor(i, popis, stanoviste, obcerstveni);
+                //new Navstevnik_0(this, popis, stanoviste, obcerstveni);
+                RozhodniDruhNavstAVytvor(i, popis, stanoviste, obcerstveni);
                 
             }
         }

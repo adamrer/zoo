@@ -37,7 +37,7 @@ namespace zoo
 
         private void Form1_Load(object sender, EventArgs e)
         {
-
+            cbTyp_navstevniku.SelectedIndex = 0;
         }
         private void bVstup_soubor_Click(object sender, EventArgs e)
         {
