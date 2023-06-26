@@ -66,20 +66,29 @@ namespace zoo
         }
 
 
-        private async void bStart_Click(object sender, EventArgs e)
+        private void bStart_Click(object sender, EventArgs e)
         {
-            //TODO: musí být vyplnìny všechny kolonky
-            bSmazLog_Click(sender, e);
-            Random random = new Random(12345);
-            Model model = new Model(_Form1, random);
-
-
-            for (int pocet = (int)numPocet_min.Value; pocet <= (int)numPocet_max.Value; pocet += (int)numPocet_krok.Value)
+            if (Prevadec.JeDigitalni(tbOd.Text) && 
+                Prevadec.JeDigitalni(tbDo.Text) && 
+                System.IO.File.Exists(lVstup_soubor.Text))
             {
-                ZapisDo("======== OTEVØENO ========", "log");
-                ZapisDo(model.Vypocti(pocet), "out");
-                ZapisDo("======== ZAVØENO ========", "log");
+                bSmazLog_Click(sender, e);
+                Random random = new Random(12345);
+                Model model = new Model(_Form1, random);
+
+
+                for (int pocet = (int)numPocet_min.Value; pocet <= (int)numPocet_max.Value; pocet += (int)numPocet_krok.Value)
+                {
+                    ZapisDo("======== OTEVØENO ========", "log");
+                    ZapisDo(model.Vypocti(pocet), "out");
+                    ZapisDo("======== ZAVØENO ========", "log");
+                }
             }
+            else
+            {
+                System.Windows.Forms.MessageBox.Show("Vyberte vstupní textový soubor a zadejte otevírací dobu ve tvaru hh:mm");
+            }
+
 
 
 

@@ -261,6 +261,7 @@
             // 
             // cbTyp_navstevniku
             // 
+            cbTyp_navstevniku.DropDownStyle = ComboBoxStyle.DropDownList;
             cbTyp_navstevniku.FormattingEnabled = true;
             cbTyp_navstevniku.Items.AddRange(new object[] { "0 - Další v listu", "1 - Stejné patro", "2 - Nejmenší fronta", "Všichni" });
             cbTyp_navstevniku.Location = new Point(158, 74);

@@ -1,0 +1,21 @@
+ Lanovka |		ID			patro	doba pøepravy	doba mezi naloženími
+---------------------------------------------------------------------------
+L				Lanovka01	0		8				1
+L				Lanovka12	1		6				2
+
+ Expozice |		ID					patro	rychlost	kapacita
+---------------------------------------------------------------------------
+E				Ptaci mokrady		0		15			100
+E				Pavilon selem		1		20			80
+E				Velemlokarium		2		10			30
+
+ Obèerstvení |	ID					patro	rychlost (objednání + èekání na jídlo)
+ ------------------------------------------------------------------------
+O				U Supa				1		15
+
+
+ Suvenýry |		ID						patro	rychlost
+ ------------------------------------------------------------------------
+
+S				U Zelv					2		20
+
