@@ -245,31 +245,25 @@ namespace zoo
         {
 
             string smer;
+            Navstevnik navst = f[0];
             if (s == Smer.Nahoru)
             {
                 naposledySedelNahoru = model.cas;
                 smer = "nahoru";
+
             }
             else
             {
                 naposledySedelDolu = model.cas;
                 smer = "dolu";
+
             }
-            Navstevnik navst = f[0];
             f.RemoveAt(0);
 
             model.Odplanuj(navst, TypUdalosti.Trpelivost);
             model.Naplanuj(model.cas + dobaPrepravy, navst, TypUdalosti.Dojel);
             model.Naplanuj(model.cas + dobaMeziNalozenim, this, TypUdalosti.Start);
             navst.jede = true;
-            if (smer == "nahoru")
-            {
-                navst.patro++;
-            }
-            else
-            {
-                navst.patro--;
-            }
 
             log($"{navst.ID} jede lanovkou {smer}");
         }
@@ -685,14 +679,15 @@ namespace zoo
                         try { st = model.VsechnaStanoviste[stanoviste[0]]; }
                         catch { st = model.VsechnaObcerstveni[stanoviste[0]]; }
                         //podle smeru zmen patro
-                        /*
+                        
                         if (st.patro > patro) patro++;
                         else if (st.patro == patro) ;// při jízdě si přidal občerstvení se stejným patrem do listu
-                        else patro--;*/
+                        else patro--;
 
                     }
                     else
                     {//jde ven
+                        
                         if (patroPrichodu > patro) patro++;
                         else if (patroPrichodu == patro) ;
                         else patro--;
@@ -921,9 +916,14 @@ namespace zoo
         protected override Obcerstveni VyberDalsiObcerstveni()
         {//vybírá ze všech občerstvení
             Obcerstveni vybraneObc = model.VsechnaObcerstveni.First().Value;
+
             foreach (KeyValuePair<string, Obcerstveni> obc in model.VsechnaObcerstveni)
             {
-                if (obc.Value.patro == patro && obc.Value.DelkaFronty < vybraneObc.DelkaFronty)
+                if (vybraneObc.patro != patro && obc.Value.patro == patro)
+                {
+                    vybraneObc = obc.Value;
+                }
+                else if (obc.Value.patro == patro && obc.Value.DelkaFronty < vybraneObc.DelkaFronty)
                 {//stejné patro a nejmenší fronta
                     vybraneObc = obc.Value;
                 }
