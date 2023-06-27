@@ -1,6 +1,6 @@
  Lanovka |		ID			patro	doba pøepravy	doba mezi naloženími
 ---------------------------------------------------------------------------
-L				Lanovka		0		7				1
+L				Lanovka		0		10				2
 
  Expozice |		ID					patro	rychlost	kapacita
 ---------------------------------------------------------------------------
@@ -35,14 +35,14 @@ E				Rezervace Dja		1		20			60
  ------------------------------------------------------------------------
 O				U Supa				0		15
 O				U Gibona			0		7
-O				U restaurace Oceán	0		11
+O				U restaurace Ocean	0		11
 O				U Trilobita			0		12
-O				Kavárna Amazonie	0		8
+O				Kavarna Amazonie	0		8
 O				Restaurace Gaston	0		19
 O				U Vyder				1		12
 O				U restaurace Gulab	1		9
 O				Gulab Restaurant	1		20
-O				V Oboøe				1		13
+O				V Obore				1		13
 O				U Prevalaka			1		15
 O				U Hrocha			1		20
 O				Gocaruv dum			1		18
