@@ -78,6 +78,10 @@ namespace zoo
         {
             get { return (int)numJezeni_max.Value; }
         }
+        public bool CheckData
+        {
+            get { return checkData.Checked; }
+        }
 
         private void Form1_Load(object sender, EventArgs e)
         {
@@ -112,6 +116,7 @@ namespace zoo
 
         private void bStart_Click(object sender, EventArgs e)
         {
+            //kontrola vstupu
             if (Prevadec.JeDigitalni(tbOd.Text) &&
                 Prevadec.JeDigitalni(tbDo.Text) &&
                 Prevadec.JeDigitalni(tbPrichod.Text) &&

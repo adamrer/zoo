@@ -76,6 +76,7 @@
             tbOd = new TextBox();
             tbPrichod = new TextBox();
             lPocitani = new Label();
+            checkData = new CheckBox();
             ((System.ComponentModel.ISupportInitialize)numPocet_min).BeginInit();
             ((System.ComponentModel.ISupportInitialize)numPocet_krok).BeginInit();
             ((System.ComponentModel.ISupportInitialize)numPocet_max).BeginInit();
@@ -580,11 +581,22 @@
             lPocitani.Text = "POČÍTÁ";
             lPocitani.Visible = false;
             // 
+            // checkData
+            // 
+            checkData.AutoSize = true;
+            checkData.Location = new Point(738, 353);
+            checkData.Name = "checkData";
+            checkData.Size = new Size(78, 19);
+            checkData.TabIndex = 60;
+            checkData.Text = "Čistě data";
+            checkData.UseVisualStyleBackColor = true;
+            // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(1036, 674);
+            Controls.Add(checkData);
             Controls.Add(lPocitani);
             Controls.Add(numSeed);
             Controls.Add(label9);
@@ -704,5 +716,6 @@
         private TextBox tbOd;
         private TextBox tbPrichod;
         private Label lPocitani;
+        private CheckBox checkData;
     }
 }

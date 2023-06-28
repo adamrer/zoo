@@ -861,7 +861,7 @@ namespace zoo
             return vybraneObc;
         }
     }
-    public class Navstevnik_3 : Navstevnik
+    public class Navstevnik_3  : Navstevnik
     {//nebudou vybíraví a nají se tam, kde je nejmenší fronta ve stejném patře
      //půjdou do patra, kde je nejméně lidí
         public Navstevnik_3(Model model, int[] popis, List<string> stanoviste, List<string> obcerstveni) : base(model, popis, stanoviste, obcerstveni) { }
@@ -993,8 +993,18 @@ namespace zoo
                 ud.kdo.Zpracuj(ud);
                 
             }
-            return $"{stihliVsechno} z {pocetNavst} stihli vše. {nemuzouStihnout} melo moc velký plán. \n" +
-                $"Prumerny cas navstevnika v zoo {Prevadec.DigitalniPlusMinuty("00:00",Prumer(straveneCasyVZoo))}";
+
+            string vystup;
+            if (form.CheckData)
+            {
+                vystup = $"{stihliVsechno},{pocetNavst},{nemuzouStihnout},{Prevadec.DigitalniPlusMinuty("00:00", Prumer(straveneCasyVZoo))}";
+            }
+            else
+            {
+                vystup = $"{stihliVsechno} z {pocetNavst} stihli vše. {nemuzouStihnout} melo moc velký plán. \n" +
+                         $"Prumerny cas navstevnika v zoo {Prevadec.DigitalniPlusMinuty("00:00", Prumer(straveneCasyVZoo))}";
+            }
+            return vystup;
         }
         void VytvorStanoviste()
         {
