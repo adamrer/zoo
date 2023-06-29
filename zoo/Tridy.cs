@@ -376,6 +376,7 @@ namespace zoo
                     else
                     {
                         Navstevnik navst = fronta[0];
+                        navst.obsluhovan = true;
                         fronta.RemoveAt(0);
                         model.Odplanuj(navst, TypUdalosti.Trpelivost);
                         model.Naplanuj(model.cas + rychlost, navst, TypUdalosti.Obslouzen);
@@ -463,7 +464,7 @@ namespace zoo
         public override bool ZaradDoFronty(Navstevnik navst)
         {
             if (pocetVolnychMist > 0)
-            {
+            {//je volno
                 pocetVolnychMist--;
                 navst.obsluhovan = true;
                 model.Naplanuj(model.cas + rychlost, navst, TypUdalosti.Obslouzen);
@@ -938,13 +939,13 @@ namespace zoo
         public int cas;
         public string dOteviraciDoba;
         public int mZaviraciDoba;
+        public int maxPatro;
         public Dictionary<string,Stanoviste> VsechnaStanoviste;
         public Dictionary<string, Obcerstveni> VsechnaObcerstveni;
         public Dictionary<int, Lanovka> lanovky;//jedna lanovka na patro
         public Form1 form;
         public int stihliVsechno;
         public int nemuzouStihnout;
-        public int maxPatro;
         public int[] straveneCasyVZoo;
         public int[] pocetNavstVPatre;
         
@@ -997,12 +998,12 @@ namespace zoo
             string vystup;
             if (form.CheckData)
             {
-                vystup = $"{stihliVsechno},{pocetNavst},{nemuzouStihnout},{Prevadec.DigitalniPlusMinuty("00:00", Prumer(straveneCasyVZoo))}";
+                vystup = $"{stihliVsechno},{pocetNavst},{nemuzouStihnout},{Prumer(straveneCasyVZoo)}";
             }
             else
             {
-                vystup = $"{stihliVsechno} z {pocetNavst} stihli vše. {nemuzouStihnout} melo moc velký plán. \n" +
-                         $"Prumerny cas navstevnika v zoo {Prevadec.DigitalniPlusMinuty("00:00", Prumer(straveneCasyVZoo))}";
+                vystup = $"{stihliVsechno} z {pocetNavst} stihli vše. {nemuzouStihnout} mělo moc velký plán. \n" +
+                         $"Průměrný čas návštěvníka v zoo {Prevadec.DigitalniPlusMinuty("00:00", Prumer(straveneCasyVZoo))}";
             }
             return vystup;
         }

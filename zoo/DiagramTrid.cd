@@ -8,18 +8,18 @@
     </TypeIdentifier>
   </Class>
   <Class Name="zoo.Form1" Collapsed="true">
-    <Position X="2.75" Y="1.5" Width="1.5" />
+    <Position X="14.25" Y="12.5" Width="1.5" />
     <Compartments>
       <Compartment Name="Fields" Collapsed="true" />
       <Compartment Name="Properties" Collapsed="true" />
     </Compartments>
     <TypeIdentifier>
-      <HashCode>AAAAAAAAACAAAAAAAACAAAACAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <HashCode>GoLEbUOBmmgAEBAYIACmCBiSR0s0OKNBIERQIAYrKoE=</HashCode>
       <FileName>Form1.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="zoo.Halda">
-    <Position X="4.75" Y="9.75" Width="1.5" />
+    <Position X="10.5" Y="14.75" Width="1.5" />
     <Compartments>
       <Compartment Name="Nested Types" Collapsed="false" />
     </Compartments>
@@ -36,7 +36,7 @@
     </TypeIdentifier>
   </Class>
   <Class Name="zoo.Kalendar">
-    <Position X="4.75" Y="7.5" Width="1.5" />
+    <Position X="10.5" Y="12.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAIAAAAAAQAAAAAAAAAgAEAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Tridy.cs</FileName>
@@ -50,7 +50,7 @@
     </TypeIdentifier>
   </Class>
   <Class Name="zoo.Model">
-    <Position X="4.75" Y="1.5" Width="1.75" />
+    <Position X="12.25" Y="12.5" Width="1.75" />
     <TypeIdentifier>
       <HashCode>gQAMBQBAAGAAAAEAAAAgEGgAAgAEAAAAIAAAAAAIQBA=</HashCode>
       <FileName>Tridy.cs</FileName>
@@ -106,7 +106,7 @@
     </TypeIdentifier>
   </Class>
   <Class Name="zoo.Prevadec">
-    <Position X="3" Y="9.75" Width="1.5" />
+    <Position X="8.75" Y="14.75" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAgCAAAAAAAAABIAAAAA=</HashCode>
       <FileName>Tridy.cs</FileName>
@@ -120,7 +120,7 @@
     </TypeIdentifier>
   </Class>
   <Class Name="zoo.Program" Collapsed="true">
-    <Position X="1.25" Y="9.75" Width="1.5" />
+    <Position X="14.25" Y="13.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABAAAAAA=</HashCode>
       <FileName>Program.cs</FileName>
@@ -141,7 +141,7 @@
     </TypeIdentifier>
   </Class>
   <Class Name="zoo.Udalost">
-    <Position X="3" Y="7.5" Width="1.5" />
+    <Position X="8.75" Y="12.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAACAA=</HashCode>
       <FileName>Tridy.cs</FileName>
@@ -155,7 +155,7 @@
     </TypeIdentifier>
   </Enum>
   <Enum Name="zoo.TypUdalosti">
-    <Position X="1.25" Y="7.5" Width="1.5" />
+    <Position X="7" Y="12.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAACAIAAAAAAAAAAAAAAAEAAAAAAQABgAAAAA=</HashCode>
       <FileName>Tridy.cs</FileName>
