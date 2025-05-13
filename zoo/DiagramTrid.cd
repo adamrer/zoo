@@ -1,0 +1,165 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="zoo.Expozice">
+    <Position X="17.25" Y="8.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>gAAAAAACAgAAAAAAAAAAAAAAAAAAAAAABAAAAAAAAAA=</HashCode>
+      <FileName>Tridy.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="zoo.Form1" Collapsed="true">
+    <Position X="14.25" Y="12.5" Width="1.5" />
+    <Compartments>
+      <Compartment Name="Fields" Collapsed="true" />
+      <Compartment Name="Properties" Collapsed="true" />
+    </Compartments>
+    <TypeIdentifier>
+      <HashCode>GoLEbUOBmmgAEBAYIACmCBiSR0s0OKNBIERQIAYrKoE=</HashCode>
+      <FileName>Form1.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="zoo.Halda">
+    <Position X="10.5" Y="14.75" Width="1.5" />
+    <Compartments>
+      <Compartment Name="Nested Types" Collapsed="false" />
+    </Compartments>
+    <NestedTypes>
+      <Class Name="zoo.Halda.Prvek">
+        <TypeIdentifier>
+          <NewMemberFileName>Tridy.cs</NewMemberFileName>
+        </TypeIdentifier>
+      </Class>
+    </NestedTypes>
+    <TypeIdentifier>
+      <HashCode>QAAAAAAAIAgAAAAREAAAAAAAAAAAAAAAEAAAAAICAAA=</HashCode>
+      <FileName>Tridy.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="zoo.Kalendar">
+    <Position X="10.5" Y="12.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAIAAAAAAQAAAAAAAAAgAEAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Tridy.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="zoo.Lanovka">
+    <Position X="23.5" Y="4.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAABEAAAAgBABAAAAAQAAIAAAgAQAAABRAABAAAAAAA=</HashCode>
+      <FileName>Tridy.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="zoo.Model">
+    <Position X="12.25" Y="12.5" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>gQAMBQBAAGAAAAEAAAAgEGgAAgAEAAAAIAAAAAAIQBA=</HashCode>
+      <FileName>Tridy.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="zoo.Navstevnik">
+    <Position X="11" Y="4.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAQgQIAhACAAAAAAABAAARAIAAIACAAQ=</HashCode>
+      <FileName>Tridy.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="zoo.Navstevnik_0" Collapsed="true">
+    <Position X="10" Y="9.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAQIAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Tridy.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="zoo.Navstevnik_1" Collapsed="true">
+    <Position X="12.25" Y="9.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAQIAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Tridy.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="zoo.Navstevnik_2" Collapsed="true">
+    <Position X="14.5" Y="9.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAQIAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Tridy.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="zoo.Navstevnik_3" Collapsed="true">
+    <Position X="7.75" Y="9.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAQIAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Tridy.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="zoo.Obcerstveni" Collapsed="true">
+    <Position X="19" Y="10.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Tridy.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="zoo.Obchod">
+    <Position X="20" Y="8.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAgAAAAAAAAAAAAAAAAAAAAAABAAAAAAAAAA=</HashCode>
+      <FileName>Tridy.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="zoo.Prevadec">
+    <Position X="8.75" Y="14.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAgCAAAAAAAAABIAAAAA=</HashCode>
+      <FileName>Tridy.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="zoo.Proces">
+    <Position X="15.5" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAIAAAgAAAAAAACAAAAAAAAAAABAAAAAAIAEA=</HashCode>
+      <FileName>Tridy.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="zoo.Program" Collapsed="true">
+    <Position X="14.25" Y="13.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABAAAAAA=</HashCode>
+      <FileName>Program.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="zoo.Stanoviste">
+    <Position X="19" Y="4.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAABAAAAAhAAACAAAQAAAAAAAAAAAACAAAAAAAAAAAA=</HashCode>
+      <FileName>Tridy.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="zoo.Suvenyry" Collapsed="true">
+    <Position X="21" Y="10.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Tridy.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="zoo.Udalost">
+    <Position X="8.75" Y="12.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAACAA=</HashCode>
+      <FileName>Tridy.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Enum Name="zoo.Smer">
+    <Position X="21.75" Y="4.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAEAAAAAAAAAAAAAEAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Tridy.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="zoo.TypUdalosti">
+    <Position X="7" Y="12.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAACAIAAAAAAAAAAAAAAAEAAAAAAQABgAAAAA=</HashCode>
+      <FileName>Tridy.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>
